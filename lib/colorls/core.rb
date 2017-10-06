@@ -33,7 +33,7 @@ module ColorLS
       else
         @contents = chunkify
         @max_widths = @contents.transpose.map { |c| c.map(&:length).max }
-        @contents.each { |chunk| ls_line(chunk) }
+        @contents.each_with_index { |chunk, index| ls_line(chunk, index) }
       end
       print "\n"
       display_report if @report
@@ -272,8 +272,8 @@ module ColorLS
       ].join
     end
 
-    def ls_line(chunk)
-      print "\n"
+    def ls_line(chunk, index)
+      print "\n" unless index.zero?
       chunk.each_with_index do |content, i|
         break if content.empty?
 
